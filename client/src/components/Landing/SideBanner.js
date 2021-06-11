@@ -22,14 +22,14 @@ const useStyles = makeStyles({
         height: '100px'
     },
     textContainer: {
-        height: "40%"
+        height: "30%"
     }
 });
 
 const SideBanner = () => {
     const classes = useStyles();
     return (
-        <Grid container item xs={5}
+        <Grid container item xs={12} md={5}
             className={classes.sideBanner}
             direction="column"
             alignItems="center"
