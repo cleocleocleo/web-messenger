@@ -23,11 +23,10 @@ const useStyles = makeStyles(() => ({
         textAlign: "center",
         paddingLeft: 20,
         paddingRight: 20,
-        marginBottom: 80
+        marginBottom: 70
     },
     title: {
         fontWeight: "600",
-        marginBottom: 30
     },
     text: {
         fontSize: 14,
@@ -40,7 +39,8 @@ const useStyles = makeStyles(() => ({
     },
     buttonContainer: {
         textAlign: "center",
-        marginTop: 30
+        marginTop: 30,
+        marginBottom: 30
     }
 }));
 

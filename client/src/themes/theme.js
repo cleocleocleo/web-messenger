@@ -36,7 +36,10 @@ export const theme = createMuiTheme({
                 borderRadius: 5,
                 width: 170,
                 height: 54,
-                color: "#3A8DFF"
+                color: "#3A8DFF",
+                "&:hover": {
+                    backgroundColor: "#F9F9F9",
+                }
             }
         }
     },
