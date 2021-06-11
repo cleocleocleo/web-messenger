@@ -36,7 +36,7 @@ const SideBanner = () => {
             justify="center"
         >
             <Grid className={classes.iconContainer}>
-                <BubbleIcon />
+                <BubbleIcon alt="speech bubble with ellipsis"/>
             </Grid>
             <Grid className={classes.textContainer}>
                 <Typography className={classes.sideBannerText}>Converse with anyone</Typography>

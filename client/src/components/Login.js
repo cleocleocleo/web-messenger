@@ -18,9 +18,7 @@ const useStyles = makeStyles(() => ({
     formContainer: {
         height: "100vh"
     },
-    fromHeader: {
-        justifyContent: "flex-end",
-        alignItems: "center",
+    formHeader: {
         paddingTop: 30,
         textAlign: "center",
         paddingLeft: 20,
@@ -68,7 +66,7 @@ const Login = (props) => {
             <SideBanner />
             <Grid item xs={12} md={7}>
                 <Grid className={classes.formContainer}>
-                    <Grid container item className={classes.fromHeader}>
+                    <Grid container item className={classes.formHeader} justify="flex-end" alignItems="center">
                         <Grid item xs={12} sm={4}>
                             <Typography className={classes.text} color="secondary">Don't have an account?</Typography>
                         </Grid>
@@ -92,10 +90,10 @@ const Login = (props) => {
                             <Grid item xs={9} sm={7}>
                                 <FormControl margin="normal" required className={classes.formInput}>
                                     <TextField
-                                        label="password"
                                         aria-label="password"
-                                        type="password"
+                                        label="Password"
                                         name="password"
+                                        type="password"
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end"><Link variant="body2">Forgot?</Link></InputAdornment>,
                                         }}
