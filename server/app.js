@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const cors = require('cors');
 const session = require("express-session");
 const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const db = require("./db");
 const { User } = require("./db/models");
@@ -24,7 +25,7 @@ app.use(express.static(join(__dirname, "public")));
 // Enable cookie parser middleware
 app.use(cookieParser());
 
-app.use(function (req, res, next) {
+app.use(function (req, _res, next) {
     //   const token = req.headers["x-access-token"];
     const token = req.cookies.token
     if (token) {
@@ -45,16 +46,29 @@ app.use(function (req, res, next) {
 });
 
 // require api routes here after I create them
+
 app.use("/auth", require("./routes/auth"));
+
+// require CSRF cookie to access api routes
+app.use(csrf({
+    cookie: {
+        httpOnly: true,
+    }
+}));
+app.use((req, res, next) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken(), { sameSite: true });
+    return next();
+});
+
 app.use("/api", require("./routes/api"));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function (_req, _res, next) {
     next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
     // set locals, only providing error in development
     console.log(err);
     res.locals.message = err.message;

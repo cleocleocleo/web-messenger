@@ -27,9 +27,7 @@ router.post("/register", async (req, res, next) => {
             { expiresIn: 86400 }
         );
 
-        // Send cookie
         res.cookie('token', token, { httpOnly: true });
-
         res.json({
             ...user.dataValues,
             token,
@@ -71,7 +69,6 @@ router.post("/login", async (req, res, next) => {
             
             // Send cookie
             res.cookie('token', token, { httpOnly: true });
-
             res.json({
                 ...user.dataValues,
                 token,
