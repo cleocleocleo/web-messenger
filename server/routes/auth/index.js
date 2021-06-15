@@ -80,6 +80,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.delete("/logout", (req, res, next) => {
+    res.clearCookie('token').clearCookie('XSRF-TOKEN');
     res.sendStatus(204);
 });
 

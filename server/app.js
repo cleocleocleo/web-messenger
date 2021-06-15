@@ -26,7 +26,6 @@ app.use(express.static(join(__dirname, "public")));
 app.use(cookieParser());
 
 app.use(function (req, _res, next) {
-    //   const token = req.headers["x-access-token"];
     const token = req.cookies.token
     if (token) {
         jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
@@ -56,7 +55,11 @@ app.use(csrf({
     }
 }));
 app.use((req, res, next) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken(), { sameSite: true });
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+        sameSite: true,
+        httpOnly: true,
+        maxAge: 86400
+    });
     return next();
 });
 
