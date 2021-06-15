@@ -27,11 +27,11 @@ router.post("/register", async (req, res, next) => {
             { expiresIn: 86400 }
         );
 
-        res.cookie('token', token, { httpOnly: true });
-        res.json({
-            ...user.dataValues,
-            token,
+        res.cookie('token', token, { 
+            httpOnly: true,
+            maxAge: 86400
         });
+        res.json({ ...user.dataValues });
     } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
             return res.status(401).json({ error: "User already exists" });
@@ -68,11 +68,11 @@ router.post("/login", async (req, res, next) => {
             );
             
             // Send cookie
-            res.cookie('token', token, { httpOnly: true });
-            res.json({
-                ...user.dataValues,
-                token,
+            res.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 86400
             });
+            res.json({ ...user.dataValues });
         }
     } catch (error) {
         next(error);
@@ -80,7 +80,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.delete("/logout", (req, res, next) => {
-    res.clearCookie('token').clearCookie('XSRF-TOKEN');
+    res.clearCookie('token', { httpOnly: true });
     res.sendStatus(204);
 });
 
