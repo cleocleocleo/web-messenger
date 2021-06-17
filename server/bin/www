@@ -42,7 +42,7 @@ io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
   if (sessionID) {
     // find existing session
-    const session = ioSession.findSession(sessionID);
+    const session = ioStore.findSession(sessionID);
     if (session) {
       socket.sessionID = sessionID;
       socket.userID = socket.handshake.auth.userID
@@ -89,15 +89,15 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("logout", async (id) => {
+  socket.on("disconnect", async () => {
     const matchingSockets = await io.in(socket.userID).allSockets();
     const isDisconnected = matchingSockets.size === 0;
     if (isDisconnected) {
       // notify other users
-      if (onlineUsers.includes(id)) {
+      if (onlineUsers.includes(socket.userID)) {
         userIndex = onlineUsers.indexOf(id);
         onlineUsers.splice(userIndex, 1);
-        socket.broadcast.emit("remove-offline-user", id);
+        socket.broadcast.emit("remove-offline-user", socket.userID);
       }
       // update the connection status of the session
       ioStore.saveSession(socket.sessionID, {

@@ -49,9 +49,9 @@ app.use(function (req, _res, next) {
 app.use("/auth", require("./routes/auth"));
 
 // require CSRF cookie to access api routes
-app.use(csrf({ cookie: true }));
+app.use(csrf({ cookie: { sameSite: true } }));
 app.use((req, res, next) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.cookie('XSRF-TOKEN', req.csrfToken(), { sameSite: true });
     return next();
 });
 
