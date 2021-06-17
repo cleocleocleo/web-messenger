@@ -1,11 +1,12 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     marginLeft: 20,
     flexGrow: 1,
   },
@@ -20,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   notification: {
     height: 20,
-    width: 20,
     backgroundColor: "#3F92FF",
-    marginRight: 10,
+    marginRight: 15,
     color: "white",
     fontSize: 10,
     letterSpacing: -0.5,
@@ -38,7 +38,7 @@ const ChatContent = (props) => {
   const classes = useStyles();
 
   const { conversation } = props;
-  const { latestMessageText, otherUser } = conversation;
+  const { latestMessageText, otherUser, notifications } = conversation;
 
   return (
     <Box className={classes.root}>
@@ -50,6 +50,15 @@ const ChatContent = (props) => {
           {latestMessageText}
         </Typography>
       </Box>
+      {notifications &&
+        <Box>
+            <Chip color="primary"
+              size="small"
+              label={notifications}
+              className={classes.notification}
+            />
+        </Box>
+      }
     </Box>
   );
 };
