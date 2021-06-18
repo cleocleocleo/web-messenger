@@ -46,7 +46,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // Updates readStatus for messages in the active conversation
-router.put("/", async (req, res, next) => {
+router.put("/read", async (req, res, next) => {
   try {
     if (!req.user) {
       return res.sendStatus(401);
@@ -55,6 +55,11 @@ router.put("/", async (req, res, next) => {
     const senderId = req.user.id;
     const { conversationId } = req.body;
 
+    const convo = await Conversation.findByPk(conversationId);
+    if (convo.user1Id !== senderId && convo.user2Id !== senderId) {
+      return res.sendStatus(401);
+    }
+    
     // Update messages in given convo NOT belonging to the user
     await Message.update({ readStatus: true }, {
       where: {

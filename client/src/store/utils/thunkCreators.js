@@ -114,7 +114,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 
 export const markMessagesRead = (body) => async (dispatch) => {
     try {
-        const { data } = await axios.put("/api/messages", body);
+        const { data } = await axios.put("/api/messages/read", body);
         dispatch(clearNotifications(data.conversationId));
     } catch (error) {
         console.error(error);
