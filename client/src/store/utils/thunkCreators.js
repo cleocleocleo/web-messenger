@@ -42,18 +42,19 @@ export const register = (credentials) => async (dispatch) => {
 };
 
 export const login = (credentials) => async (dispatch) => {
-    const sessionID = sessionStorage.getItem("sessionID");
+    // const sessionID = localStorage.getItem("sessionID");
     try {
         const { data } = await axios.post("/auth/login", credentials);
         dispatch(gotUser(data));
+        
         const authData = {
             userID: data.id,
             username: data.username
         };
 
-        if (sessionID) {
-            authData.sessionID = sessionID;
-        } 
+        // if (sessionID) {
+        //     authData.sessionID = sessionID;
+        // } 
         
         socket.auth = authData
         socket.connect();
@@ -72,7 +73,6 @@ export const logout = () => async (dispatch) => {
     } catch (error) {
         console.error(error);
     }
-    
 };
 
 // CONVERSATIONS THUNK CREATORS
@@ -94,8 +94,7 @@ const saveMessage = async (body) => {
 const sendMessage = (data, body) => {
     socket.emit("new-message", {
         message: data.message,
-        recipientId: body.recipientId,
-        sender: data.sender,
+        to: body.recipientId
     });
 };
 
