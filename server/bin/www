@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("no-typing", (data) => {
-    socket.broadcast.emti("no-typing", data);
+    socket.broadcast.emit("no-typing", data);
   });
 
   socket.on("new-message", ({ message, to }) => {

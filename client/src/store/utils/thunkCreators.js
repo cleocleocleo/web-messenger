@@ -123,7 +123,7 @@ export const handleTyping = (user) => {
 };
 
 export const noMoreTyping = (user) => {
-    socket.emit("no_typing", {
+    socket.emit("no-typing", {
         typist: user,
     });
 };

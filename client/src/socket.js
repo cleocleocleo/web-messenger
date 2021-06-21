@@ -29,7 +29,7 @@ socket.on("typing", (data) => {
   store.dispatch(isTyping(data));
 });
 
-socket.on("no_typing", (data) => {
+socket.on("no-typing", (data) => {
   store.dispatch(notTyping(data));
 });
 

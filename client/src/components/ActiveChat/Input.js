@@ -30,8 +30,8 @@ class Input extends Component {
       text: event.target.value,
     });
     event.target.value !== ""
-      ? handleTyping(this.props.user)
-      : noMoreTyping(this.props.user)
+      ? handleTyping(this.props.user.username)
+      : noMoreTyping(null)
   };
 
   handleSubmit = async (event) => {
@@ -47,7 +47,7 @@ class Input extends Component {
     this.setState({
       text: "",
     });
-    noMoreTyping(this.props.user);
+    noMoreTyping(null);
   };
 
   render() {
@@ -81,6 +81,12 @@ const mapDispatchToProps = (dispatch) => {
     postMessage: (message) => {
       dispatch(postMessage(message));
     },
+    handleTyping: (username) => {
+      dispatch(handleTyping(username));
+    },
+    noMoreTyping: (username) => {
+      dispatch(noMoreTyping(username));
+    }
   };
 };
 

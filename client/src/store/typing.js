@@ -5,21 +5,17 @@ const NOT_TYPING = "NOT_TYPING";
 
 // ACTION CREATORS
 
-export const isTyping = (data) => {
+export const isTyping = (username) => {
     return {
         type: IS_TYPING,
-        payload: {
-            ...data,
-        },
+        username,
     };
 };
 
-export const notTyping = (data) => {
+export const notTyping = (username) => {
     return {
         type: NOT_TYPING,
-        payload: {
-            ...data,
-        },
+        username,
     };
 };
 
@@ -27,16 +23,12 @@ export const notTyping = (data) => {
 
 const reducer = (state = [], action) => {
     switch (action.type) {
-        case IS_TYPING:
-            return {
-                ...state,
-                typist: action.payload.typist,
-            };
-        case NOT_TYPING:
-            return {
-                ...state,
-                typist: null,
-            };
+        case IS_TYPING: {
+            return action.username;
+        }
+        case NOT_TYPING: {
+            return action.username;
+        }
         default:
             return state;
     }
