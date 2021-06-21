@@ -11,7 +11,7 @@ const { app, sessionStore } = require("../app");
 const http = require("http");
 const db = require("../db");
 const onlineUsers = require("../utils/onlineUsers");
-
+const jwt = require("jsonwebtoken");
 /**
  * Get port from environment and store in Express.
  */
@@ -68,6 +68,14 @@ io.on("connection", (socket) => {
   socket.broadcast.emit("user-connected", {
     userID: socket.userID,
     username: socket.username,
+  });
+
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typing", data);
+  });
+
+  socket.on("no-typing", (data) => {
+    socket.broadcast.emti("no-typing", data);
   });
 
   socket.on("new-message", ({ message, to }) => {

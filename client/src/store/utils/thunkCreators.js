@@ -113,3 +113,17 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
         console.error(error);
     }
 };
+
+// TYPING THUNK CREATORS
+
+export const handleTyping = (user) => {
+    socket.emit("typing", {
+        typist: user,
+    });
+};
+
+export const noMoreTyping = (user) => {
+    socket.emit("no_typing", {
+        typist: user,
+    });
+};

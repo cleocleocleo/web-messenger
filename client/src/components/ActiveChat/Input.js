@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormControl, FilledInput } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { postMessage } from "../../store/utils/thunkCreators";
+import { postMessage, handleTyping, noMoreTyping } from "../../store/utils/thunkCreators";
 
 const styles = {
   root: {
@@ -29,6 +29,9 @@ class Input extends Component {
     this.setState({
       text: event.target.value,
     });
+    event.target.value !== ""
+      ? handleTyping(this.props.user)
+      : noMoreTyping(this.props.user)
   };
 
   handleSubmit = async (event) => {
@@ -44,6 +47,7 @@ class Input extends Component {
     this.setState({
       text: "",
     });
+    noMoreTyping(this.props.user);
   };
 
   render() {
