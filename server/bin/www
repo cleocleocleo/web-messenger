@@ -31,6 +31,22 @@ const server = http.createServer(app);
 
 const io = require("socket.io")(server);
 
+io.use(function (socket, next) {
+  const cookie = socket.request.headers.cookie;
+
+  if (cookie) {
+    jwt.verify(cookie, process.env.SESSION_SECRET, (err, decoded) => {
+      if (err) return next(new Error("Authentication error"));
+      socket.decoded = decoded;
+      next();
+    });
+  }
+  else {
+    next(new Error("Authentication error"));
+  }
+  next();
+});
+
 io.use((socket, next) => {
   const username = socket.handshake.auth.username;
   if (!username) {
@@ -44,18 +60,17 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   socket.join(socket.userID);
   
-  if (!onlineUsers.includes(socket.userID)) {
-    onlineUsers.push(socket.userID);
-    socket.emit("users", onlineUsers);
+  if (!onlineUsers.has(socket.userID)) {
+    onlineUsers.add(socket.userID);
+    socket.emit("users", [...onlineUsers]);
   }
 
-  socket.broadcast.emit("user connected", {
+  socket.broadcast.emit("user-connected", {
     userID: socket.userID,
     username: socket.username,
   });
 
   socket.on("new-message", ({ message, to }) => {
-    console.log(message, to);
     socket.to(to).to(socket.userID).emit("new-message", {
       message,
       from: socket.userID,
@@ -68,9 +83,8 @@ io.on("connection", (socket) => {
     const isDisconnected = matchingSockets.size === 0;
     if (isDisconnected) {
       // notify other users
-      if (onlineUsers.includes(socket.userID)) {
-        userIndex = onlineUsers.indexOf(socket.userID);
-        onlineUsers.splice(userIndex, 1);
+      if (onlineUsers.has(socket.userID)) {
+        onlineUsers.delete(socket.userID);
         socket.broadcast.emit("remove-offline-user", socket.userID);
       }
     }

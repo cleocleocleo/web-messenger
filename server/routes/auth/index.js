@@ -24,13 +24,13 @@ router.post("/register", async (req, res, next) => {
         const token = jwt.sign(
             { id: user.dataValues.id },
             process.env.SESSION_SECRET,
-            { expiresIn: 3600000 }
+            { expiresIn: 86400 }
         );
 
         res.cookie('token', token, { 
             httpOnly: true,
             sameSite: true,
-            maxAge: 3600000
+            maxAge: 86400
         });
         res.json({ ...user.dataValues });
     } catch (error) {
@@ -65,14 +65,14 @@ router.post("/login", async (req, res, next) => {
             const token = jwt.sign(
                 { id: user.dataValues.id },
                 process.env.SESSION_SECRET,
-                { expiresIn: 3600000 }
+                { expiresIn: 86400 }
             );
             
             // Send cookie
             res.cookie('token', token, {
                 httpOnly: true,
                 sameSite: true,
-                maxAge: 3600000
+                maxAge: 86400
             });
             res.json({ ...user.dataValues });
         }

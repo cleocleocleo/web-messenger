@@ -33,7 +33,7 @@ export const register = (credentials) => async (dispatch) => {
         socket.auth = {
             userID: data.id, 
             username: data.username
-        }
+        };
         socket.connect();
     } catch (error) {
         console.error(error);
@@ -42,23 +42,14 @@ export const register = (credentials) => async (dispatch) => {
 };
 
 export const login = (credentials) => async (dispatch) => {
-    // const sessionID = localStorage.getItem("sessionID");
     try {
         const { data } = await axios.post("/auth/login", credentials);
         dispatch(gotUser(data));
-        
-        const authData = {
+        socket.auth = {
             userID: data.id,
             username: data.username
         };
-
-        // if (sessionID) {
-        //     authData.sessionID = sessionID;
-        // } 
-        
-        socket.auth = authData
         socket.connect();
-
     } catch (error) {
         console.error(error);
         dispatch(gotUser({ error: error.response.data.error || "Server Error" }));
@@ -103,7 +94,6 @@ const sendMessage = (data, body) => {
 export const postMessage = (body) => async (dispatch) => {
   try {
     const data = await saveMessage(body);
-
     if (!body.conversationId) {
       dispatch(addConversation(data.recipientId, data.message));
     } else {

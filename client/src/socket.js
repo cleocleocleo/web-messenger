@@ -12,8 +12,7 @@ socket.on("connect", () => {
   console.log("connected to server");
 });
 
-
-socket.on("user connected", (user) => {
+socket.on("user-connected", (user) => {
   store.dispatch(addOnlineUser(user.userID));
 });
 
