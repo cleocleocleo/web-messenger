@@ -81,3 +81,15 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     }
   });
 };
+
+export const clearNotificationsFromStore = (state, conversationId) => {
+  return state.map(convo => {
+    if (convo.id === conversationId) {
+      const newConvo = { ...convo };
+      newConvo.notifications = 0;
+      return newConvo;
+    } else {
+      return convo
+    }
+  });
+};
